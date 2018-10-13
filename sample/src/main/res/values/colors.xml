@@ -4,6 +4,10 @@
     <color name="event_color_02">#f57f68</color>
     <color name="event_color_03">#87d288</color>
     <color name="event_color_04">#f8b552</color>
+    <color name="bg_color_01">#7d59dbe0</color>
+    <color name="bg_color_02">#7df57f68</color>
+    <color name="bg_color_03">#7d87d288</color>
+    <color name="bg_color_04">#7df8b552</color>
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>

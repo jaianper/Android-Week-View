@@ -1,7 +1,9 @@
 package com.alamkanak.weekview;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GestureDetectorCompat;
@@ -805,8 +808,23 @@ public class WeekView extends View {
                             bottom > mHeaderHeight + mHeaderRowPadding * 2 + mTimeTextHeight / 2 + mHeaderMarginBottom
                             ) {
                         mEventRects.get(i).rectF = new RectF(left, top, right, bottom);
-                        mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
-                        canvas.drawRoundRect(mEventRects.get(i).rectF, mEventCornerRadius, mEventCornerRadius, mEventBackgroundPaint);
+
+                        try
+                        {
+                            Drawable d = getResources().getDrawable(mEventRects.get(i).event.getDrawableResource());
+                            int width = (int)(right - left);
+                            int height = (int)(bottom - top);
+                            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                            canvas.drawBitmap(bitmap, left, top, null);
+                            d.setBounds((int)left, (int)top, (int)right, (int)bottom);
+                            d.draw(canvas);
+                        }
+                        catch(Resources.NotFoundException e)
+                        {
+                            mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
+                            canvas.drawRoundRect(mEventRects.get(i).rectF, mEventCornerRadius, mEventCornerRadius, mEventBackgroundPaint);
+                        }
+
                         drawEventTitle(mEventRects.get(i).event, mEventRects.get(i).rectF, canvas, top, left);
                     }
                     else
@@ -849,8 +867,23 @@ public class WeekView extends View {
                             bottom > 0
                             ) {
                         mEventRects.get(i).rectF = new RectF(left, top, right, bottom);
-                        mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
-                        canvas.drawRoundRect(mEventRects.get(i).rectF, mEventCornerRadius, mEventCornerRadius, mEventBackgroundPaint);
+
+                        try
+                        {
+                            Drawable d = getResources().getDrawable(mEventRects.get(i).event.getDrawableResource());
+                            int width = (int)(right - left);
+                            int height = (int)(bottom - top);
+                            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                            canvas.drawBitmap(bitmap, left, top, null);
+                            d.setBounds((int)left, (int)top, (int)right, (int)bottom);
+                            d.draw(canvas);
+                        }
+                        catch(Resources.NotFoundException e)
+                        {
+                            mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
+                            canvas.drawRoundRect(mEventRects.get(i).rectF, mEventCornerRadius, mEventCornerRadius, mEventBackgroundPaint);
+                        }
+
                         drawEventTitle(mEventRects.get(i).event, mEventRects.get(i).rectF, canvas, top, left);
                     }
                     else
@@ -888,6 +921,13 @@ public class WeekView extends View {
 
         int availableHeight = (int) (rect.bottom - originalTop - mEventPadding * 2);
         int availableWidth = (int) (rect.right - originalLeft - mEventPadding * 2);
+
+        // Set custom text color for different events
+        try
+        {
+            mEventTextPaint.setColor(getResources().getColor(event.getTextColor()));
+        }
+        catch (Resources.NotFoundException ignored) { }
 
         // Get text dimensions.
         StaticLayout textLayout = new StaticLayout(bob, mEventTextPaint, availableWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);

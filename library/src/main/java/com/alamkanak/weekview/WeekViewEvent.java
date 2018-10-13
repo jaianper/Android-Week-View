@@ -1,5 +1,9 @@
 package com.alamkanak.weekview;
 
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,6 +21,8 @@ public class WeekViewEvent {
     private String mName;
     private String mLocation;
     private int mColor;
+    private int mDrawableResource;
+    private int mTextColor;
     private boolean mAllDay;
 
     public WeekViewEvent(){
@@ -136,8 +142,24 @@ public class WeekViewEvent {
         return mColor;
     }
 
-    public void setColor(int color) {
+    public void setColor(@ColorInt int color) {
         this.mColor = color;
+    }
+
+    public int getTextColor() {
+        return mTextColor;
+    }
+
+    public void setTextColor(@ColorRes int mTextColor) {
+        this.mTextColor = mTextColor;
+    }
+
+    public int getDrawableResource() {
+        return mDrawableResource;
+    }
+
+    public void setDrawableResource(@DrawableRes int mDrawableResource) {
+        this.mDrawableResource = mDrawableResource;
     }
 
     public boolean isAllDay() {

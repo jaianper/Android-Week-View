@@ -20,4 +20,11 @@
         android:text="@string/title_activity_asynchronous"
         style="@style/Button"/>
 
+    <Button
+        android:id="@+id/buttonAlternative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_alternative"
+        style="@style/Button"/>
+
 </LinearLayout>
